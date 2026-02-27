@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BeyondApp – Mapa Vivo | Vídeos e fotos dos locais no mapa</title>
+  <meta name="description" content="Explore sua cidade através de vídeos curtos e fotos dos estabelecimentos. O Google Maps vai além da geolocalização." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+</head>
+<body>
+  <!-- ========== LANDING PAGE ========== -->
+  <div id="view-landing" class="view view-active">
+    <header class="header">
+      <div class="container header-content">
+        <div class="logo">
+          <span class="logo-mark">B</span>
+          <span class="logo-text">BeyondApp</span>
+        </div>
+        <nav class="nav">
+          <a href="#sobre">Sobre</a>
+          <a href="#funcionalidades">Funcionalidades</a>
+          <a href="#cta">Acesso</a>
+        </nav>
+        <button id="toggle-dark" class="btn-icon" aria-label="Alternar tema claro/escuro">🌙</button>
+      </div>
+
+      <section class="hero container">
+        <div class="hero-text">
+          <h1>O mapa que vai <em>além</em> da geolocalização.</h1>
+          <p>
+            Explore sua cidade através de vídeos curtos e fotos reais dos estabelecimentos.
+            Precisão do Google Maps com a experiência visual das redes sociais — um verdadeiro Mapa Vivo.
+          </p>
+          <div class="hero-ctas">
+            <button type="button" class="btn-primary" data-goto="consumer" aria-label="Abrir mapa e explorar locais">
+              Explorar mapa
+            </button>
+            <button type="button" class="btn-secondary-landing" data-goto="merchant" aria-label="Acessar painel do comerciante">
+              Sou comerciante
+            </button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-mock">
+            <span class="hero-mock-label">Mapa + Feed de vídeos</span>
+            <div class="hero-mock-map"></div>
+            <div class="hero-mock-feed"></div>
+          </div>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <section id="sobre" class="section">
+        <div class="container grid-2">
+          <div>
+            <h2>Sobre o BeyondApp</h2>
+            <p>
+              O BeyondApp une a precisão e a usabilidade do Google Maps à experiência visual
+              de vídeos curtos (Reels, TikTok, Shorts) e fotos atualizadas dos próprios comerciantes.
+            </p>
+            <p>
+              Você abre o mapa e, em vez de só fotos desatualizadas e estrelas, assiste à
+              <strong>vitrine real e atualizada</strong> do comércio — a 5, 10 ou 100 km de distância.
+            </p>
+          </div>
+          <div class="highlight-box">
+            <h3>Para quem é?</h3>
+            <ul>
+              <li><strong>Consumidores:</strong> descobrir locais por vídeos e fotos e usar "Como chegar".</li>
+              <li><strong>Comerciantes:</strong> conectar Instagram e TikTok uma vez; o sistema puxa a mídia para o mapa.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="funcionalidades" class="section section-alt">
+        <div class="container">
+          <h2>O que você pode fazer</h2>
+          <p class="section-subtitle">
+            Módulo Consumidor e Módulo Comerciante em uma única plataforma.
+          </p>
+          <div class="features-grid">
+            <article class="feature-card">
+              <h3>Mapa interativo</h3>
+              <p>Visualize locais com raio ajustável e filtros por categoria (Alimentação, Vestuário, etc.).</p>
+            </article>
+            <article class="feature-card">
+              <h3>Feed de vídeos curtos</h3>
+              <p>Navegue em formato swipe ou grade pelos Reels e fotos dos estabelecimentos próximos.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Detalhes e rotas</h3>
+              <p>Veja informações do Google Places e use o botão "Como chegar" para rotas.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Dashboard do comerciante</h3>
+              <p>Conecte Instagram e TikTok, gerencie mídias e acompanhe métricas de visualização e cliques.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="cta" class="section">
+        <div class="container cta-box">
+          <div>
+            <h2>Pronto para ir além?</h2>
+            <p>Explore locais no mapa ou acesse o painel do comerciante.</p>
+          </div>
+          <div class="cta-buttons">
+            <button type="button" class="btn-cta-primary" data-goto="consumer">Explorar mapa</button>
+            <button type="button" class="btn-cta-secondary" data-goto="merchant">Painel comerciante</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-content">
+        <p>© <span id="year"></span> BeyondApp. Projeto Integrador.</p>
+        <p class="footer-note">Mapa Vivo — Native advertising com vídeos curtos no mapa.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ========== MÓDULO CONSUMIDOR (Discovery) ========== -->
+  <div id="view-consumer" class="view">
+    <header class="app-header">
+      <button type="button" class="btn-back" data-goto="landing" aria-label="Voltar à página inicial">← Voltar</button>
+      <div class="logo logo-small">
+        <span class="logo-mark">B</span>
+        <span class="logo-text">BeyondApp</span>
+      </div>
+      <div class="header-spacer"></div>
+    </header>
+
+    <div class="consumer-layout">
+      <div class="map-section">
+        <div id="map" class="map-container" aria-label="Mapa interativo de locais"></div>
+        <div class="filters-bar">
+          <select id="filter-category" class="filter-select" aria-label="Filtrar por categoria">
+            <option value="">Todas as categorias</option>
+            <option value="alimentacao">Alimentação</option>
+            <option value="vestuario">Vestuário</option>
+            <option value="postos">Postos</option>
+            <option value="servicos">Serviços</option>
+            <option value="lazer">Lazer</option>
+          </select>
+          <div class="radius-control">
+            <label for="filter-radius">Raio:</label>
+            <select id="filter-radius" class="filter-select" aria-label="Raio de busca em km">
+              <option value="1">1 km</option>
+              <option value="3">3 km</option>
+              <option value="5" selected>5 km</option>
+              <option value="10">10 km</option>
+              <option value="15">15 km</option>
+              <option value="50">50 km</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <aside class="feed-aside">
+        <h2 class="feed-title">Próximos de você</h2>
+        <div id="feed-container" class="feed-container">
+          <!-- Feed de cards (vídeos/fotos) preenchido por JS -->
+        </div>
+      </aside>
+    </div>
+
+    <!-- Card de detalhes do local (drawer) -->
+    <div id="place-detail" class="place-detail hidden" role="dialog" aria-label="Detalhes do local" aria-modal="true">
+      <button type="button" class="place-detail-close" aria-label="Fechar">×</button>
+      <div id="place-detail-content" class="place-detail-content">
+        <!-- Conteúdo injetado por JS -->
+      </div>
+      <a id="place-detail-directions" href="#" target="_blank" rel="noopener" class="btn-directions">Como chegar</a>
+    </div>
+  </div>
+
+  <!-- ========== MÓDULO COMERCIANTE (Dashboard B2B) ========== -->
+  <div id="view-merchant" class="view">
+    <header class="app-header">
+      <button type="button" class="btn-back" data-goto="landing" aria-label="Voltar à página inicial">← Voltar</button>
+      <div class="logo logo-small">
+        <span class="logo-mark">B</span>
+        <span class="logo-text">BeyondApp</span>
+      </div>
+      <span class="merchant-badge">Dashboard</span>
+    </header>
+
+    <div class="merchant-layout">
+      <nav class="merchant-nav" aria-label="Menu do painel">
+        <button type="button" class="merchant-nav-item merchant-nav-item-active" data-tab="onboarding">Integrações</button>
+        <button type="button" class="merchant-nav-item" data-tab="media">Mídia</button>
+        <button type="button" class="merchant-nav-item" data-tab="metrics">Métricas</button>
+      </nav>
+
+      <main class="merchant-content">
+        <!-- Tab: Onboarding / Integrações -->
+        <section id="tab-onboarding" class="merchant-tab merchant-tab-active">
+          <h2>Conectar suas redes</h2>
+          <p class="tab-desc">Reivindique seu local no Google Business e conecte Instagram e TikTok para que suas fotos e vídeos apareçam no mapa automaticamente.</p>
+          <div class="onboarding-cards">
+            <div class="onboarding-card">
+              <h3>Google Business</h3>
+              <p>Valide a propriedade do seu estabelecimento.</p>
+              <button type="button" class="btn-connect btn-connect-google" disabled>Em breve</button>
+            </div>
+            <div class="onboarding-card">
+              <h3>Instagram Profissional</h3>
+              <p>Conecte via OAuth 2.0 para sincronizar Reels e fotos.</p>
+              <button type="button" class="btn-connect btn-connect-insta">Conectar Instagram</button>
+            </div>
+            <div class="onboarding-card">
+              <h3>TikTok</h3>
+              <p>Conecte sua conta para exibir seus vídeos no mapa.</p>
+              <button type="button" class="btn-connect btn-connect-tiktok">Conectar TikTok</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tab: Painel de Mídia -->
+        <section id="tab-media" class="merchant-tab">
+          <h2>Painel de mídia</h2>
+          <p class="tab-desc">Conteúdo puxado automaticamente das suas redes. Você pode ocultar itens que não deseja exibir no mapa.</p>
+          <div id="media-grid" class="media-grid">
+            <!-- Cards de mídia preenchidos por JS -->
+          </div>
+        </section>
+
+        <!-- Tab: Métricas -->
+        <section id="tab-metrics" class="merchant-tab">
+          <h2>Insights</h2>
+          <p class="tab-desc">Acompanhe visualizações das suas mídias e cliques em "Como chegar".</p>
+          <div class="metrics-cards">
+            <div class="metric-card">
+              <span class="metric-value" id="metric-views">—</span>
+              <span class="metric-label">Visualizações (30 dias)</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-value" id="metric-directions">—</span>
+              <span class="metric-label">Cliques em "Como chegar"</span>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="script.js"></script>
+</body>
+</html>
